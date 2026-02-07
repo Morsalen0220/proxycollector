@@ -1,0 +1,27 @@
+name: Morapple-X Proxy Hunter
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # প্রতি ১ ঘণ্টা পরপর অটোমেটিক চলবে
+  workflow_dispatch:      # গিটহাব থেকে ম্যানুয়ালি রান করার অপশন
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: pip install aiohttp
+
+      - name: Run Proxy Scraper
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python telegram.py
